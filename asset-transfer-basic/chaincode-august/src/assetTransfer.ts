@@ -18,16 +18,20 @@ export class AssetTransferContract extends Contract {
                 GrainType: 'blue',
                 Size: 5,
                 Owner: 'Tomoko',
-                AppraisedValue: 300,
-                Date: 1
+                Date: 1,
+                Protein: 0,
+                Mositure: 0,
+                HarvestGrade: 'D'
             },
             {
                 ID: 'asset2',
                 GrainType: 'Barley',
                 Size: 100,
                 Owner: 'August',
-                AppraisedValue: 100,
-                Date: 1
+                Date: 1,
+                Protein: 0,
+                Mositure: 0,
+                HarvestGrade: 'HW'
             },
         ];
 
@@ -44,7 +48,7 @@ export class AssetTransferContract extends Contract {
 
     // CreateAsset issues a new asset to the world state with given details.
     @Transaction()
-    public async CreateAsset(ctx: Context, id: string, grainType: string, size: number, owner: string, appraisedValue: number, date: number): Promise<void> {
+    public async CreateAsset(ctx: Context, id: string, grainType: string, size: string, owner: string, date: string, protein: string, moisture: string, harvestGrade: string): Promise<void> {
         const exists = await this.AssetExists(ctx, id);
         if (exists) {
             throw new Error(`The asset ${id} already exists`);
@@ -53,10 +57,12 @@ export class AssetTransferContract extends Contract {
         const asset = {
             ID: id,
             GrainType: grainType,
-            Size: size,
+            Size: parseInt(size, 10),
             Owner: owner,
-            AppraisedValue: appraisedValue,
-            Date: date,
+            Date: parseInt(date, 10),
+            Protein: parseFloat(protein),
+            Mositure: parseFloat(moisture),
+            HavrestGrade: harvestGrade,
         };
         // we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
         await ctx.stub.putState(id, Buffer.from(stringify(sortKeysRecursive(asset))));
@@ -74,7 +80,7 @@ export class AssetTransferContract extends Contract {
 
     // UpdateAsset updates an existing asset in the world state with provided parameters.
     @Transaction()
-    public async UpdateAsset(ctx: Context, id: string, grainType: string, size: number, owner: string, appraisedValue: number, date: number): Promise<void> {
+    public async UpdateAsset(ctx: Context, id: string, grainType: string, size: string, owner: string, date: string, protein: string, moisture: string, harvestGrade: string): Promise<void> {
         const exists = await this.AssetExists(ctx, id);
         if (!exists) {
             throw new Error(`The asset ${id} does not exist`);
@@ -84,10 +90,12 @@ export class AssetTransferContract extends Contract {
         const updatedAsset = {
             ID: id,
             GrainType: grainType,
-            Size: size,
+            Size: parseInt(size, 10),
             Owner: owner,
-            AppraisedValue: appraisedValue,
-            Date: date,
+            Date: parseInt(date, 10),
+            Protein: parseFloat(protein),
+            Mositure: parseFloat(moisture),
+            HavrestGrade: harvestGrade,
         };
         // we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
         return ctx.stub.putState(id, Buffer.from(stringify(sortKeysRecursive(updatedAsset))));

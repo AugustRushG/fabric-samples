@@ -22,7 +22,13 @@ export class Asset {
     public Owner: string;
 
     @Property()
-    public AppraisedValue: number;
+    public Protein: number;
+  
+    @Property()
+    public Mositure: number;
+  
+    @Property()
+    public HarvestGrade: string;
   
     @Property()
     public Date: number;
