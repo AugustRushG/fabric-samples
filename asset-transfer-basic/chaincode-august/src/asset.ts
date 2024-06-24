@@ -10,20 +10,29 @@ export class Asset {
     public docType?: string;
 
     @Property()
-    public ID: string;
+    public id: string;
 
     @Property()
-    public GrainType: string;
+    public grainType: string;
 
     @Property()
-    public Size: number;
+    public size: number;
 
     @Property()
-    public Owner: string;
-
-    @Property()
-    public AppraisedValue: number;
+    public ownerId: string;
   
     @Property()
-    public Date: number;
+    public storageLocation: string;
+
+    @Property()
+    public date: string;
+  
+    @Property()
+    public protein: number;
+  
+    @Property()
+    public moisture: number;
+  
+    @Property()
+    public harvestGrade: string;
 }
